@@ -11,17 +11,6 @@ on:
     branches:
       - 'main'
 
-# on:
-
-#   # publish on releases, e.g. v2.1.13 (image tagged as "2.1.13" - "v" prefix is removed)
-#   release:
-#     types: [ published ]
-
-#   # publish on pushes to the main branch (image tagged as "latest")
-#   push:
-#     branches:
-#       - main
-
 jobs:
   docker_publish:
     runs-on: "ubuntu-latest"

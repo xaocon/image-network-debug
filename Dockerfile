@@ -1,11 +1,20 @@
 ARG ARCH=
-ARG UBUNTU_VERSION=rolling
-FROM ${ARCH}ubuntu:${UBUNTU_VERSION}
+ARG GOLANG_VERSION=latest
+FROM ${ARCH}golang:${UBUNTU_VERSION} AS builder
 
 ARG CERTIGO_VERSION=1.14.1
 
+RUN curl -LO https://github.com/square/certigo/archive/refs/tags/v${CERTIGO_VERSION}.tar.gz && \
+    tar xaf v${CERTIGO_VERSION}.tar.gz && cd certigo-${CERTIGO_VERSION} && \
+    bash build && mv bin/certigo /
+
+ARG UBUNTU_VERSION=rolling
+FROM ${ARCH}ubuntu:${UBUNTU_VERSION}
+
 # ARG so it won't be set in image
 ARG DEBIAN_FRONTEND=noninteractive
+
+COPY --from=builder /certigo /usr/local/bin/
 
 # TODO: add certigo and get a better shell in
 RUN apt update && \
