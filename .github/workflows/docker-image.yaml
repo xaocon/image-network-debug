@@ -1,7 +1,7 @@
 name: Build and publish a Docker image to ghcr.io
 on:
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '4 10 * * *'
   push:
     branches:
       - '**'
@@ -35,11 +35,13 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          # list of Docker images to use as base name for tags
           images: |
             ghcr.io/xaocon/image-network-debug
-          # generate Docker tags based on the following events/attributes
+          labels: |
+            org.opencontainers.image.description="For debugging in k8s"
+            org.opencontainers.image.licenses=MIT
           tags: |
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
             type=schedule
             type=ref,event=branch
             type=ref,event=pr
