@@ -21,8 +21,7 @@ RUN --mount=type=cache,target=/usr/local/cargo/registry \
     cargo install --no-default-features starship && \
     cargo install bat && \
     cp /usr/local/cargo/bin/starship / && \
-    cp /usr/local/cargo/bin/bat / && \
-    starship init --print-full-init bash > /starship-init.sh
+    cp /usr/local/cargo/bin/bat /
 
 
 # Real Image
@@ -36,13 +35,13 @@ WORKDIR /root
 COPY --from=go-builder /certigo /usr/local/bin/
 COPY --from=rust-builder /starship /usr/local/bin/
 COPY --from=rust-builder /bat /usr/local/bin/
-COPY --from=rust-builder /starship-init.sh /root/.starship-init.sh
 COPY bashrc /root/.bashrc
 COPY starship.toml /root/.config/starship.toml
 
 # TODO: add certigo and get a better shell in
 RUN --mount=type=cache,target=/var/cache/apt \
     rm -f /etc/apt/apt.conf.d/docker-clean && \
+    starship init --print-full-init bash > /starship-init.sh && \
     apt update && \
     apt upgrade -y && \
     apt install -y curl vim iproute2 bind9-dnsutils mtr-tiny \
