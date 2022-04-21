@@ -2,7 +2,6 @@ ARG ARCH=
 ARG GOLANG_VERSION=latest
 ARG RUST_VERSION=latest
 ARG UBUNTU_VERSION=rolling
-ARG BAT_VERSION="0.20.0"
 
 
 # Go builder
@@ -22,6 +21,8 @@ FROM ${ARCH}ubuntu:${UBUNTU_VERSION}
 ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG C.UTF-8
 WORKDIR /root
+
+ARG BAT_VERSION="0.20.0"
 
 COPY --from=go-builder /certigo /usr/local/bin/
 
