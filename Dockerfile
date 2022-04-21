@@ -2,6 +2,7 @@ ARG ARCH=
 ARG GOLANG_VERSION=latest
 ARG RUST_VERSION=latest
 ARG UBUNTU_VERSION=rolling
+ARG BAT_VERSION="0.20.0"
 
 
 # Go builder
@@ -14,16 +15,6 @@ RUN curl -LO https://github.com/square/certigo/archive/refs/tags/v${CERTIGO_VERS
     bash build && mv bin/certigo /
 
 
-# Rust builder
-FROM ${ARCH}rust:${RUST_VERSION} AS rust-builder
-
-RUN --mount=type=cache,target=/usr/local/cargo/registry \
-    cargo install --no-default-features starship && \
-    cargo install bat && \
-    cp /usr/local/cargo/bin/starship / && \
-    cp /usr/local/cargo/bin/bat /
-
-
 # Real Image
 FROM ${ARCH}ubuntu:${UBUNTU_VERSION}
 
@@ -33,17 +24,18 @@ ENV LANG C.UTF-8
 WORKDIR /root
 
 COPY --from=go-builder /certigo /usr/local/bin/
-COPY --from=rust-builder /starship /usr/local/bin/
-COPY --from=rust-builder /bat /usr/local/bin/
+
+# ARCH specific for now
+ADD https://github.com/sharkdp/bat/releases/download/v${BAT_VERSION}/bat_${BAT_VERSION}_amd64.deb /
+
 COPY bashrc /root/.bashrc
 COPY starship.toml /root/.config/starship.toml
 
 # TODO: add certigo and get a better shell in
-RUN --mount=type=cache,target=/var/cache/apt \
-    rm -f /etc/apt/apt.conf.d/docker-clean && \
-    starship init --print-full-init bash > /starship-init.sh && \
-    apt update && \
+RUN apt update && \
     apt upgrade -y && \
     apt install -y curl vim iproute2 bind9-dnsutils mtr-tiny \
         openssh-client ripgrep fd-find bash-completion && \
-    rm -rf /var/lib/apt/lists/*
+    curl -sS https://starship.rs/install.sh | sh -y && \
+    starship init --print-full-init bash > /root/.starship-init.sh && \
+    dpgk -i /bat_${BAT_VERSION}_amd64.deb && rm /bat_${BAT_VERSION}_amd64.deb
