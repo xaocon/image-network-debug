@@ -31,7 +31,7 @@ ADD https://starship.rs/install.sh .
 ADD https://raw.githubusercontent.com/xaocon/grml-etc-core/mine/etc/zsh/zshrc .zshrc
 
 COPY starship.toml .config/starship.toml
-COPY .zshrc.local .
+COPY zshrc.local .zshrc.local
 
 # TODO: add certigo and get a better shell in
 RUN --mount=type=cache,target=/var/cache/apt \
