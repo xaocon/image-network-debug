@@ -37,6 +37,6 @@ RUN apt update && \
     apt upgrade -y && \
     apt install -y curl vim iproute2 bind9-dnsutils mtr-tiny \
         openssh-client ripgrep fd-find bash-completion && \
-    curl -sS https://starship.rs/install.sh | sh -y && \
+    curl -sS https://starship.rs/install.sh | sh -s -- -y && \
     starship init --print-full-init bash > /root/.starship-init.sh && \
     dpgk -i /bat_${BAT_VERSION}_amd64.deb && rm /bat_${BAT_VERSION}_amd64.deb
