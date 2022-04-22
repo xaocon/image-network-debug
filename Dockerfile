@@ -46,3 +46,5 @@ RUN --mount=type=cache,target=/var/cache/apt \
     zsh -c 'zcompile -U .zshrc && zcompile .zshrc.local' && \
     rm bat_${BAT_VERSION}_${TARGETARCH}.deb && rm install.sh && \
     rm -rf /var/lib/apt/lists/*
+
+CMD ["zsh", "-l"]
