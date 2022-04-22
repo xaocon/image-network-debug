@@ -30,7 +30,8 @@ ADD https://github.com/sharkdp/bat/releases/download/v${BAT_VERSION}/bat_${BAT_V
 ADD https://starship.rs/install.sh .
 ADD https://raw.githubusercontent.com/xaocon/grml-etc-core/mine/etc/zsh/zshrc .zshrc
 
-COPY starship.toml /root/.config/starship.toml
+COPY starship.toml .config/starship.toml
+COPY .zshrc.local .
 
 # TODO: add certigo and get a better shell in
 RUN --mount=type=cache,target=/var/cache/apt \
@@ -42,5 +43,6 @@ RUN --mount=type=cache,target=/var/cache/apt \
     dpkg -i bat_${BAT_VERSION}_${TARGETARCH}.deb && \
     sh install.sh -y && \
     starship init --print-full-init zsh > .starship-init.zsh && \
+    zsh -c 'zcompile -U .zshrc && zcompile .zshrc.local' && \
     rm bat_${BAT_VERSION}_${TARGETARCH}.deb && rm install.sh && \
     rm -rf /var/lib/apt/lists/*
