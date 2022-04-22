@@ -27,16 +27,18 @@ ARG BAT_VERSION="0.20.0"
 COPY --from=go-builder /certigo /usr/local/bin/
 
 # ARCH specific for now
-ADD https://github.com/sharkdp/bat/releases/download/v${BAT_VERSION}/bat_${BAT_VERSION}_amd64.deb /
+ADD https://github.com/sharkdp/bat/releases/download/v${BAT_VERSION}/bat_${BAT_VERSION}_amd64.deb .
+ADD https://starship.rs/install.sh .
+ADD https://raw.githubusercontent.com/xaocon/grml-etc-core/mine/etc/zsh/zshrc .zshrc
 
-COPY bashrc /root/.bashrc
 COPY starship.toml /root/.config/starship.toml
 
 # TODO: add certigo and get a better shell in
 RUN apt update && \
     apt upgrade -y && \
     apt install -y curl vim iproute2 bind9-dnsutils mtr-tiny \
-        openssh-client ripgrep fd-find bash-completion && \
-    curl -sS https://starship.rs/install.sh | sh -s -- -y && \
-    starship init --print-full-init bash > /root/.starship-init.sh && \
-    dpkg -i /bat_${BAT_VERSION}_amd64.deb && rm /bat_${BAT_VERSION}_amd64.deb
+        openssh-client ripgrep fd-find bash-completion zsh && \
+    sh install.sh -y && \
+    starship init --print-full-init zsh > .starship-init.zsh && \
+    dpkg -i bat_${BAT_VERSION}_amd64.deb && \
+    rm bat_${BAT_VERSION}_amd64.deb && rm install.sh
