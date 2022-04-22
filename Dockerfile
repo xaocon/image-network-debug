@@ -39,4 +39,4 @@ RUN apt update && \
         openssh-client ripgrep fd-find bash-completion && \
     curl -sS https://starship.rs/install.sh | sh -s -- -y && \
     starship init --print-full-init bash > /root/.starship-init.sh && \
-    dpgk -i /bat_${BAT_VERSION}_amd64.deb && rm /bat_${BAT_VERSION}_amd64.deb
+    dpkg -i /bat_${BAT_VERSION}_amd64.deb && rm /bat_${BAT_VERSION}_amd64.deb
