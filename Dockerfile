@@ -5,7 +5,7 @@ ARG UBUNTU_VERSION=rolling
 # Go builder
 FROM --platform=$TARGETPLATFORM golang:${GOLANG_VERSION} AS go-builder
 
-ARG CERTIGO_VERSION=1.15.1
+ARG CERTIGO_VERSION=1.16.0
 
 RUN curl -LO https://github.com/square/certigo/archive/refs/tags/v${CERTIGO_VERSION}.tar.gz && \
     tar xaf v${CERTIGO_VERSION}.tar.gz && cd certigo-${CERTIGO_VERSION} && \
@@ -21,7 +21,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV LANG C.UTF-8
 WORKDIR /root
 
-ARG BAT_VERSION="0.20.0"
+ARG BAT_VERSION="0.21.0"
 
 COPY --from=go-builder /certigo /usr/local/bin/
 
