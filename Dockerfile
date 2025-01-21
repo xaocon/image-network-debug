@@ -43,9 +43,9 @@ COPY starship.toml .config/starship.toml
 COPY zshrc.local .zshrc.local
 
 # TODO: add certigo and get a better shell in
-RUN --mount=type=cache,target=/var/cache/apt \
-    rm -f /etc/apt/apt.conf.d/docker-clean && \
-    apt update && \
+# RUN --mount=type=cache,target=/var/cache/apt \
+    # rm -f /etc/apt/apt.conf.d/docker-clean && \
+RUN apt update && \
     apt upgrade -y && \
     apt install -y curl vim iproute2 bind9-dnsutils mtr-tiny \
         openssh-client ripgrep fd-find bash-completion zsh && \
