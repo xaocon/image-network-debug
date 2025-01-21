@@ -8,5 +8,5 @@ insert_final_newline = true
 end_of_line = lf
 encoding = utf-8
 
-[*.yaml,*.yml]
+[*.{yaml,yml}]
 tab_width = 2
