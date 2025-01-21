@@ -56,5 +56,5 @@ jobs:
         pull: ${{ github.event_name == 'schedule' }}
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
-        cache-from: type=registry,ref=ghcr.io/xaocon/image-network-debug:latest
+        # cache-from: type=registry,ref=ghcr.io/xaocon/image-network-debug:latest
         cache-to: type=inline
