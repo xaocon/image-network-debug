@@ -52,9 +52,11 @@ jobs:
       uses: docker/build-push-action@v6
       with:
         platforms: linux/amd64,linux/arm64
-        push: ${{ github.event_name != 'pull_request' }}
-        pull: ${{ github.event_name == 'schedule' }}
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
+        push: true
+        tags: ghcr.io/xaocon/image-network-debug:latest
+        # push: ${{ github.event_name != 'pull_request' }}
+        # pull: ${{ github.event_name == 'schedule' }}
+        # tags: ${{ steps.meta.outputs.tags }}
+        # labels: ${{ steps.meta.outputs.labels }}
         # cache-from: type=registry,ref=ghcr.io/xaocon/image-network-debug:buildcache
         # cache-to: type=registry,ref=ghcr.io/xaocon/image-network-debug:buildcache,mode=max
