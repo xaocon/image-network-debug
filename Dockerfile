@@ -37,7 +37,7 @@ COPY --from=builder /output/bat.deb .
 COPY --from=builder /output/certigo /usr/local/bin/
 COPY --from=builder /output/starship /usr/local/bin/
 
-ADD https://raw.githubusercontent.com/xaocon/grml-etc-core/mine/etc/zsh/zshrc .zshrc
+ADD https://raw.githubusercontent.com/grml/grml-etc-core/master/etc/zsh/zshrc .zshrc
 
 COPY starship.toml .config/starship.toml
 COPY zshrc.local .zshrc.local
