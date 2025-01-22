@@ -1,9 +1,0 @@
-[kubernetes]
-symbol = "⛵ "
-style = "dimmed green"
-disabled = false
-[gcloud]
-disabled = false
-format = '[$symbol$project $account $region]($style) '
-[aws]
-disabled = true
